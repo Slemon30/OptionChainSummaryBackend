@@ -46,7 +46,7 @@ def fetch_option_data():
             
                 for td in CallcellsOI:
                     callcelldiv_OI = td.find('div', class_='opr84CellVal')
-                    callOI = float(callcelldiv_OI.text.replace(",", "").strip())  # Get the text from the div
+                    callOI = callcelldiv_OI.text.replace(",", "").strip()  # Get the text from the div
                     if callOI == '--':
                         callOI = 0
                     else:
