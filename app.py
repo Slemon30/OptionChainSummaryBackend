@@ -75,8 +75,8 @@ def fetch_option_data():
                     putcelldiv_Price = td.find('div', class_='opr84CellVal')
                     putPrice = float(putcelldiv_Price.text.replace(",", "").replace("₹", "").strip())  # Get the text from the div
                 #print("Put Price: ", putPrice)  # Print the Call OI value
-
-                data1 = [callOI, callPrice, strikePrice, putPrice, putOI]
+                callplusputOI = callOI + putOI
+                data1 = [callOI, callPrice, strikePrice, putPrice, putOI, callplusputOI]
                 optiondata_list.append(data1)
                         
         else:
@@ -89,7 +89,7 @@ def fetch_option_data():
 @app.route('/get_option_data', methods=['GET'])
 def get_option_data():
     optiondata_list = fetch_option_data()
-    optionchain = pd.DataFrame(optiondata_list, columns=['Call OI', 'Call Price', 'Strike Price', 'Put Price', 'Put OI'])
+    optionchain = pd.DataFrame(optiondata_list, columns=['Call OI', 'Call Price', 'Strike Price', 'Put Price', 'Put OI', 'Call+Put'])
     
     totalCallOI = optionchain['Call OI'].sum()
     totalPutOI = optionchain['Put OI'].sum()
