@@ -102,6 +102,10 @@ def get_option_data():
         maxCallOI_StrikePrice = optionchain.loc[optionchain['Call OI'].idxmax(), 'Strike Price']
         maxPutOI_StrikePrice = optionchain.loc[optionchain['Put OI'].idxmax(), 'Strike Price']
         maxOI_StrikePrice = optionchain.loc[(optionchain['Call+Put']).idxmax(), 'Strike Price']
+        top3_maxOI = optionchain.nlargest(3, 'Call+Put')
+        top3_maxOI_StrikePrices = top3_maxOI['Strike Price'].tolist()
+        maxOI_StrikePrice2 = top3_maxOI_StrikePrices[1]
+        maxOI_StrikePrice3 = top3_maxOI_StrikePrices[2]
 
     
     #maxCallOI_StrikePrice = optionchain.loc[optionchain['Call OI'].idxmax()]['Strike Price'] if not optionchain['Call OI'].empty else None
@@ -129,7 +133,10 @@ def get_option_data():
             "putToCallRatio": put_to_call_ratio,
             "maxCallOI_StrikePrice": maxCallOI_StrikePrice,
             "maxPutOI_StrikePrice": maxPutOI_StrikePrice,
-            "maxOI_StrikePrice": maxOI_StrikePrice
+            "maxOI_StrikePrice": maxOI_StrikePrice,
+            "maxOI_StrikePrice2": maxOI_StrikePrice2,
+            "maxOI_StrikePrice3": maxOI_StrikePrice3
+            
         }
     })
 
