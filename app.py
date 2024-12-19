@@ -21,7 +21,7 @@ def fetch_option_data():
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Find all tables with the specified classes
-    tables = soup.find_all('table', class_='tb10Table optc56Table')
+    tables = soup.find_all('table', class_='tb10Table borderPrimary optc56Table')
 
     if tables:
     # Select the first table in the list
