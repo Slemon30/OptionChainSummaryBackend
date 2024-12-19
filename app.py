@@ -94,22 +94,16 @@ def get_option_data():
     totalCallOI = optionchain['Call OI'].sum()
     totalPutOI = optionchain['Put OI'].sum()
     put_to_call_ratio = totalPutOI / totalCallOI if totalCallOI else 0
-    maxCallOI= 0
-    maxPutOI=0
-    maxCallOI_StrikePrice = 0
-    maxPutOi_StrikePrice = 0
-    maxOI = 0
-    maxOI_StrikePrice= 0
-    for i in optiondata_list:
-        if i[0] > maxCallOI:
-            maxCallOI = i[0]
-            maxCallOI_StrikePrice = i[2]
-        if i[4] > maxPutOI:
-            maxPutOI = i[4]
-            maxPutOI_StrikePrice = i[2]
-        if i[0]+i[4] > maxOI:
-            maxOI = i[0] + i[4]
-            maxOI_StrikePrice = i[2]
+    maxCallOI_StrikePrice = None
+    maxPutOI_StrikePrice = None
+    maxOI_StrikePrice = None
+
+    if not optionchain.empty:
+        maxCallOI_StrikePrice = optionchain.loc[optionchain['Call OI'].idxmax(), 'Strike Price']
+        maxPutOI_StrikePrice = optionchain.loc[optionchain['Put OI'].idxmax(), 'Strike Price']
+        maxOI_StrikePrice = optionchain.loc[(optionchain['Call+Put']).idxmax(), 'Strike Price']
+
+    
     #maxCallOI_StrikePrice = optionchain.loc[optionchain['Call OI'].idxmax()]['Strike Price'] if not optionchain['Call OI'].empty else None
     #maxPutOI_StrikePrice = optionchain.loc[optionchain['Put OI'].idxmax()]['Strike Price'] if not optionchain['Put OI'].empty else None
     #maxOI_StrikePrice = optionchain.loc[optionchain['Call OI'] + optionchain['Put OI'] == (optionchain['Call OI'] + optionchain['Put OI']).max()]['Strike Price'].values[0]
