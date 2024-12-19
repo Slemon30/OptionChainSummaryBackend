@@ -54,7 +54,7 @@ def fetch_option_data():
 
                 #print("Call OI: ", callOI)  # Print the Call OI value
                 for td in CallcellsPrice:
-                    callcelldiv_Price = td.find('div', class_='opr84CellVal')
+                    callcelldiv_Price = td.find('a', class_='opr84PriceVal')
                     callPrice = float(callcelldiv_Price.text.replace(",", "").replace("₹", "").strip())  # Get the text from the div
                 #print("Call Price: ", callPrice)  # Print the Call OI value
 
@@ -72,7 +72,7 @@ def fetch_option_data():
                 #print("Put OI: ", putOI)  # Print the Call OI value
 
                 for td in PutcellsPrice:
-                    putcelldiv_Price = td.find('div', class_='opr84CellVal')
+                    putcelldiv_Price = td.find('a', class_='opr84PriceVal')
                     putPrice = float(putcelldiv_Price.text.replace(",", "").replace("₹", "").strip())  # Get the text from the div
                 #print("Put Price: ", putPrice)  # Print the Call OI value
                 callplusputOI = callOI + putOI
@@ -103,7 +103,7 @@ def get_option_data():
 
     combined_OI = optionchain['Call OI'] + optionchain['Put OI']
     max_combined_OI = combined_OI.max()
-
+    maxOI_StrikePrice = 0
     filtered = optionchain.loc[combined_OI == max_combined_OI]
     if not filtered.empty:
         maxOI_StrikePrice = filtered['Strike Price'].values[0]
