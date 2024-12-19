@@ -94,22 +94,37 @@ def get_option_data():
     totalCallOI = optionchain['Call OI'].sum()
     totalPutOI = optionchain['Put OI'].sum()
     put_to_call_ratio = totalPutOI / totalCallOI if totalCallOI else 0
-
-    maxCallOI_StrikePrice = optionchain.loc[optionchain['Call OI'].idxmax()]['Strike Price'] if not optionchain['Call OI'].empty else None
-    maxPutOI_StrikePrice = optionchain.loc[optionchain['Put OI'].idxmax()]['Strike Price'] if not optionchain['Put OI'].empty else None
+    maxCallOI= 0
+    maxPutOI=0
+    maxCallOI_StrikePrice = 0
+    maxPutOi_StrikePrice = 0
+    maxOI = 0
+    maxOI_StrikePrice= 0
+    for i in optiondata_list:
+        if i[0] > maxCallOI:
+            maxCallOI = i[0]
+            maxCallOI_StrikePrice = i[2]
+        if i[4] > maxPutOI:
+            maxPutOI = i[4]
+            maxPutOI_StrikePrice = i[2]
+        if i[0]+i[4] > maxOI:
+            maxOI = i[0] + i[4]
+            maxOI_StrikePrice = i[2]
+    #maxCallOI_StrikePrice = optionchain.loc[optionchain['Call OI'].idxmax()]['Strike Price'] if not optionchain['Call OI'].empty else None
+    #maxPutOI_StrikePrice = optionchain.loc[optionchain['Put OI'].idxmax()]['Strike Price'] if not optionchain['Put OI'].empty else None
     #maxOI_StrikePrice = optionchain.loc[optionchain['Call OI'] + optionchain['Put OI'] == (optionchain['Call OI'] + optionchain['Put OI']).max()]['Strike Price'].values[0]
-    optionchain['Call OI'] = pd.to_numeric(optionchain['Call OI'], errors='coerce').fillna(0)
-    optionchain['Put OI'] = pd.to_numeric(optionchain['Put OI'], errors='coerce').fillna(0)
+    #optionchain['Call OI'] = pd.to_numeric(optionchain['Call OI'], errors='coerce').fillna(0)
+    #optionchain['Put OI'] = pd.to_numeric(optionchain['Put OI'], errors='coerce').fillna(0)
 
-    combined_OI = optionchain['Call OI'] + optionchain['Put OI']
-    max_combined_OI = combined_OI.max()
-    maxOI_StrikePrice = 0
-    filtered = optionchain.loc[combined_OI == max_combined_OI]
-    if not filtered.empty:
-        maxOI_StrikePrice = filtered['Strike Price'].values[0]
-        print("Strike Price with max OI:", maxOI_StrikePrice)
-    else:
-        print("No Strike Price found with maximum combined OI.")
+   # combined_OI = optionchain['Call OI'] + optionchain['Put OI']
+    #max_combined_OI = combined_OI.max()
+    #maxOI_StrikePrice = 0
+    #filtered = optionchain.loc[combined_OI == max_combined_OI]
+    #if not filtered.empty:
+        #maxOI_StrikePrice = filtered['Strike Price'].values[0]
+        #print("Strike Price with max OI:", maxOI_StrikePrice)
+    #else:
+        #print("No Strike Price found with maximum combined OI.")
 
     
     return jsonify({
