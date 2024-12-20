@@ -55,7 +55,11 @@ def fetch_option_data():
                 #print("Call OI: ", callOI)  # Print the Call OI value
                 for td in CallcellsPrice:
                     callcelldiv_Price = td.find('a', class_='opr84PriceVal')
-                    callPrice = float(callcelldiv_Price.text.replace(",", "").replace("₹", "").strip())  # Get the text from the div
+                    callPrice = callcelldiv_Price.text.replace(",", "").replace("₹", "").strip()  # Get the text from the div
+                    if callPrice == '--':
+                        callPrice = 0
+                    else:
+                        callPrice = float(callPrice)
                 #print("Call Price: ", callPrice)  # Print the Call OI value
 
                 for td in StrikePrice:
@@ -73,7 +77,11 @@ def fetch_option_data():
 
                 for td in PutcellsPrice:
                     putcelldiv_Price = td.find('a', class_='opr84PriceVal')
-                    putPrice = float(putcelldiv_Price.text.replace(",", "").replace("₹", "").strip())  # Get the text from the div
+                    putPrice = putcelldiv_Price.text.replace(",", "").replace("₹", "").strip()  # Get the text from the div
+                    if putPrice == '--':
+                        putPrice = 0
+                    else:
+                        putPrice = float(putPrice)
                 #print("Put Price: ", putPrice)  # Print the Call OI value
                 callplusputOI = callOI + putOI
                 data1 = [callOI, callPrice, strikePrice, putPrice, putOI, callplusputOI]
