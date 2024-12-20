@@ -54,7 +54,7 @@ def fetch_option_data():
 
                 #print("Call OI: ", callOI)  # Print the Call OI value
                 for td in CallcellsPrice:
-                    callcelldiv_Price = td.find('a', class_='opr84PriceVal')
+                    callcelldiv_Price = td.find('a', class_='opr84CellVal')
                     callPrice = callcelldiv_Price.text.replace(",", "").replace("₹", "").strip()  # Get the text from the div
                     if callPrice == '--':
                         callPrice = 0
@@ -76,7 +76,7 @@ def fetch_option_data():
                 #print("Put OI: ", putOI)  # Print the Call OI value
 
                 for td in PutcellsPrice:
-                    putcelldiv_Price = td.find('a', class_='opr84PriceVal')
+                    putcelldiv_Price = td.find('a', class_='opr84CellVal')
                     putPrice = putcelldiv_Price.text.replace(",", "").replace("₹", "").strip()  # Get the text from the div
                     if putPrice == '--':
                         putPrice = 0
