@@ -84,7 +84,8 @@ def fetch_option_data():
                         putPrice = float(putPrice)
                 #print("Put Price: ", putPrice)  # Print the Call OI value
                 callplusputOI = callOI + putOI
-                data1 = [callOI, callPrice, strikePrice, putPrice, putOI, callplusputOI]
+                callminusputOI = callOI - putOI
+                data1 = [callOI, callPrice, strikePrice, putPrice, putOI, callplusputOI, callminusputOI]
                 optiondata_list.append(data1)
                         
         else:
@@ -97,7 +98,7 @@ def fetch_option_data():
 @app.route('/get_option_data', methods=['GET'])
 def get_option_data():
     optiondata_list = fetch_option_data()
-    optionchain = pd.DataFrame(optiondata_list, columns=['Call OI', 'Call Price', 'Strike Price', 'Put Price', 'Put OI', 'Call+Put'])
+    optionchain = pd.DataFrame(optiondata_list, columns=['Call OI', 'Call Price', 'Strike Price', 'Put Price', 'Put OI', 'Call+Put', 'Call-Put'])
     
     totalCallOI = optionchain['Call OI'].sum()
     totalPutOI = optionchain['Put OI'].sum()
