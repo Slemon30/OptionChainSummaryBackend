@@ -4,3 +4,5 @@ requests
 pandas
 bs4
 waitress
+jsonify
+APScheduler
